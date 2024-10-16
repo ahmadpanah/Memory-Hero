@@ -85,6 +85,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/panel2" />
 
+    <TextView
+        android:layout_width="220dp"
+        android:layout_height="26dp"
+        android:fontFamily="@font/titr"
+        android:text="درس برنامه نویسی موبایل دانشکده شریعتی"
+        android:textColor="@color/white"
+        android:layout_marginTop="20dp"
+        android:textSize="13sp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/panel3" />
+
 
 
 
