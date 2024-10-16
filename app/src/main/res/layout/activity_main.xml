@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#3F51B5"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvAppName"
+        android:layout_marginTop="20dp"
+        android:text="قهرمان حافظه"
+        android:textColor="@color/white"
+        android:textSize="40sp"
+        android:fontFamily="@font/titr"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_star_24"
+        android:drawablePadding="5dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/titr"
+        android:text="185"
+        android:textColor="#FFC107"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvAppName" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/panel1"
+        android:layout_width="0dp"
+        android:layout_height="170dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/btn_state"
+        android:elevation="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/panel2"
+        android:layout_marginStart="30dp"
+        app:layout_constraintTop_toBottomOf="@+id/tvScore" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/panel2"
+        android:layout_width="0dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="60dp"
+        android:layout_height="170dp"
+        android:background="@drawable/btn_state"
+        android:elevation="10dp"
+        app:layout_constraintStart_toEndOf="@id/panel1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvScore" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/panel3"
+        android:layout_width="0dp"
+        android:layout_height="170dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/btn_state"
+        android:elevation="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/panel4"
+        android:layout_marginStart="30dp"
+        app:layout_constraintTop_toBottomOf="@+id/panel1" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/panel4"
+        android:layout_width="0dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_height="170dp"
+        android:background="@drawable/btn_state"
+        android:elevation="10dp"
+        app:layout_constraintStart_toEndOf="@id/panel3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/panel2" />
+
+
+
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
