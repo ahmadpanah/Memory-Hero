@@ -11,6 +11,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.View.OnClickListener
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.app.ActivityCompat
 import androidx.core.view.forEach
@@ -39,10 +40,6 @@ class MainActivity : AppCompatActivity(),OnClickListener {
             panel4.setOnClickListener(this@MainActivity)
             startGame()
         }
-    }
-
-    override fun onClick(view: View?) {
-        TODO("Not yet implemented")
     }
 
 
@@ -110,4 +107,26 @@ class MainActivity : AppCompatActivity(),OnClickListener {
             }
         }
     }
+
+    override fun onClick(view: View?) {
+        view?.let {
+            userAnswer += when(it.id) {
+                R.id.panel1 -> "1"
+                R.id.panel2 -> "2"
+                R.id.panel3 -> "3"
+                R.id.panel4 -> "4"
+                else -> ""
+            }
+            if (userAnswer == result){
+                Toast.makeText(this@MainActivity, "W I N! 👌🍕",Toast.LENGTH_SHORT).show()
+                score++
+                binding.tvScore.text = score.toString()
+                startGame()
+            }
+            else if  (userAnswer.length >= result.length)  {
+                loseAnimation()
+                }
+        }
+    }
+
 }
