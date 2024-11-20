@@ -27,14 +27,15 @@ class LeaderboardManager {
                     val scores = snapshot.children.mapNotNull {
                         it.getValue(Score::class.java)
                     }.sortedByDescending { it.score }
+                    callback(LeaderboardResult.Success(scores))
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
+                    callback(LeaderboardResult.Error(error.message))
                 }
-
             })
     }
+        
 
     }
 }
