@@ -20,14 +20,38 @@ import ir.shariaty.memoryhero.databinding.ActivityMainBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+import android.media.MediaPlayer
+import android.os.Handler
+import android.provider.Settings.Panel
+import android.widget.Button
+import kotlin.random.Random
+
+
+
+
 class MainActivity : AppCompatActivity(),OnClickListener {
     private lateinit var binding : ActivityMainBinding
     private var score = 0
     private var result : String = ""
     private var userAnswer : String = ""
 
+    private var mediaPlayer: MediaPlayer? = null
+    private lateinit var panel1: AppCompatButton
+    private lateinit var panel2: AppCompatButton
+    private lateinit var panel3: AppCompatButton
+    private lateinit var panel4: AppCompatButton
+
     override fun onCreate(savedInstanceState : Bundle?) {
         super.onCreate(savedInstanceState)
+
+        setContentView(R.layout.activity_main)
+        panel1 = findViewById(R.id.panel1)
+        panel2 = findViewById(R.id.panel2)
+        panel3 = findViewById(R.id.panel3)
+        panel4= findViewById(R.id.panel4)
+        mediaPlayer = MediaPlayer.create(this, R.raw.mediading)
+
+
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
@@ -52,14 +76,27 @@ class MainActivity : AppCompatActivity(),OnClickListener {
         }
     }
 
-    private fun enableButtons(){
+    private fun enableButtons() {
         binding.root.forEach { view ->
-            if (view is AppCompatButton)
-            {
+            if (view is AppCompatButton) {
                 view.isEnabled = true
+                mediaPlayer?.start()
             }
         }
     }
+
+
+    override fun onPause() {
+        super.onPause()
+        mediaPlayer?.pause()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mediaPlayer?.release()
+        mediaPlayer = null
+    }
+
 
     private fun startGame(){
         result = ""
@@ -72,7 +109,7 @@ class MainActivity : AppCompatActivity(),OnClickListener {
                 delay(400)
                 val randomPanel = (1 .. 4).random()
                 result += randomPanel
-                var panel = when(randomPanel) {
+                val panel = when(randomPanel) {
                     1 -> binding.panel1
                     2 -> binding.panel2
                     3 -> binding.panel3
@@ -125,8 +162,9 @@ class MainActivity : AppCompatActivity(),OnClickListener {
             }
             else if  (userAnswer.length >= result.length)  {
                 loseAnimation()
-                }
+            }
         }
     }
 
 }
+
