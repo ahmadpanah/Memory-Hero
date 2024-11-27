@@ -7,3 +7,8 @@ data class Score (
     val timestamp: Long = System.currentTimeMillis(),
     val userId: String = ""
 )
+
+sealed class LeaderboardResult{
+    data class Success(val score: List<Score>) : LeaderboardResult()
+    data class Error(val message: String) : LeaderboardResult()
+}

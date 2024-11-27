@@ -16,9 +16,10 @@ class LeaderboardManager {
         scoresRef.child(scoreId).setValue(score).addOnSuccessListener {
             callback(true)
         }
-            .addOnFailureListener{
-               callback(false)
+            .addOnFailureListener {
+                callback(false)
             }
+    }
     fun getTopScore(limit: Int = 100,callback: (LeaderboardResult) -> Unit){
         scoresRef.orderByChild("score")
             .limitToLast(limit)
@@ -35,7 +36,21 @@ class LeaderboardManager {
                 }
             })
     }
-        
+    fun subscribeToScoreUpdates(callback: (LeaderboardResult) -> Unit) {
+        scoresRef.orderByChild("score")
+            .limitToLast(100)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val scores = snapshot.children.mapNotNull {
+                        it.getValue(Score::class.java)
+                    }.sortedByDescending { it.score }
+                    callback(LeaderboardResult.Success(scores))
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    callback(LeaderboardResult.Error(error.message))
+                }
+            })
+    }
 
     }
-}

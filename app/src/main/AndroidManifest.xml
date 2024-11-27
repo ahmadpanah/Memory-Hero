@@ -13,6 +13,9 @@
         android:theme="@style/Theme.MaterialComponents"
         tools:targetApi="31">
         <activity
+            android:name=".OnlineLeaderboardActivity"
+            android:exported="false" />
+        <activity
             android:name=".StartActivity"
             android:exported="true">
             <intent-filter>
@@ -24,9 +27,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.MemoryHero">
-
-        </activity>
+            android:theme="@style/Theme.MemoryHero"></activity>
     </application>
 
 </manifest>
