@@ -16,8 +16,10 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+
     }
 }
 
-rootProject.name = "MemoryHero"
+rootProject.name = "Memory Hero"
 include(":app")
+ 
