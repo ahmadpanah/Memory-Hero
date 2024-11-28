@@ -1,3 +1,4 @@
+
 package ir.shariaty.memoryhero
 
 import android.os.Bundle
@@ -26,14 +27,15 @@ import android.provider.Settings.Panel
 import android.widget.Button
 import kotlin.random.Random
 
-
-
-
-class MainActivity : AppCompatActivity(),OnClickListener {
-    private lateinit var binding : ActivityMainBinding
+class MainActivity : AppCompatActivity(), OnClickListener {
+    private lateinit var binding: ActivityMainBinding
     private var score = 0
-    private var result : String = ""
-    private var userAnswer : String = ""
+    private var result: String = ""
+    private var userAnswer: String = ""
+
+    private var panelSound: MediaPlayer? = null
+    private var clickSound: MediaPlayer? = null
+    private var clapSound: MediaPlayer? = null
 
     private var mediaPlayer: MediaPlayer? = null
     private lateinit var panel1: AppCompatButton
@@ -41,22 +43,21 @@ class MainActivity : AppCompatActivity(),OnClickListener {
     private lateinit var panel3: AppCompatButton
     private lateinit var panel4: AppCompatButton
 
-    override fun onCreate(savedInstanceState : Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
         panel1 = findViewById(R.id.panel1)
         panel2 = findViewById(R.id.panel2)
         panel3 = findViewById(R.id.panel3)
-        panel4= findViewById(R.id.panel4)
+        panel4 = findViewById(R.id.panel4)
         mediaPlayer = MediaPlayer.create(this, R.raw.mediading)
-
 
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
 
-        // init Views
+// init Views
         binding.apply {
             panel1.setOnClickListener(this@MainActivity)
             panel2.setOnClickListener(this@MainActivity)
@@ -64,13 +65,15 @@ class MainActivity : AppCompatActivity(),OnClickListener {
             panel4.setOnClickListener(this@MainActivity)
             startGame()
         }
+
+        panelSound = MediaPlayer.create(this, R.raw.panel_sound)
+        clickSound = MediaPlayer.create(this, R.raw.click_sound)
+        clapSound = MediaPlayer.create(this, R.raw.clap_sound)
     }
 
-
-    private fun disableButtons(){
+    private fun disableButtons() {
         binding.root.forEach { view ->
-            if (view is AppCompatButton)
-            {
+            if (view is AppCompatButton) {
                 view.isEnabled = false
             }
         }
@@ -85,7 +88,6 @@ class MainActivity : AppCompatActivity(),OnClickListener {
         }
     }
 
-
     override fun onPause() {
         super.onPause()
         mediaPlayer?.pause()
@@ -97,40 +99,40 @@ class MainActivity : AppCompatActivity(),OnClickListener {
         mediaPlayer = null
     }
 
-
-    private fun startGame(){
+    private fun startGame() {
         result = ""
         userAnswer = ""
         disableButtons()
         lifecycleScope.launch {
-            val round = (3 .. 5).random()
-            repeat(round)
-            {
+            val round = (3..5).random()
+            repeat(round) {
                 delay(400)
-                val randomPanel = (1 .. 4).random()
+                val randomPanel = (1..4).random()
                 result += randomPanel
-                val panel = when(randomPanel) {
+                val panel = when (randomPanel) {
                     1 -> binding.panel1
                     2 -> binding.panel2
                     3 -> binding.panel3
                     else -> binding.panel4
                 }
-                val drawbleYellow = ActivityCompat.getDrawable(this@MainActivity,R.drawable.btn_yellow)
-                val drawableDefault = ActivityCompat.getDrawable(this@MainActivity,R.drawable.btn_state)
+                val drawbleYellow = ActivityCompat.getDrawable(this@MainActivity, R.drawable.btn_yellow)
+                val drawableDefault = ActivityCompat.getDrawable(this@MainActivity, R.drawable.btn_state)
                 panel.background = drawbleYellow
+                panelSound?.start() // پخش صدای panel_sound
                 delay(1000)
                 panel.background = drawableDefault
             }
             enableButtons()
         }
     }
-    private fun loseAnimation(){
+
+    private fun loseAnimation() {
         binding.apply {
             score = 0
             tvScore.text = "0"
             disableButtons()
-            val drawbleLose = ActivityCompat.getDrawable(this@MainActivity,R.drawable.btn_lose)
-            val drawableDefault = ActivityCompat.getDrawable(this@MainActivity,R.drawable.btn_state)
+            val drawbleLose = ActivityCompat.getDrawable(this@MainActivity, R.drawable.btn_lose)
+            val drawableDefault = ActivityCompat.getDrawable(this@MainActivity, R.drawable.btn_state)
             lifecycleScope.launch {
                 binding.root.forEach { view ->
                     if (view is AppCompatButton) {
@@ -147,24 +149,23 @@ class MainActivity : AppCompatActivity(),OnClickListener {
 
     override fun onClick(view: View?) {
         view?.let {
-            userAnswer += when(it.id) {
+            userAnswer += when (it.id) {
                 R.id.panel1 -> "1"
                 R.id.panel2 -> "2"
                 R.id.panel3 -> "3"
                 R.id.panel4 -> "4"
                 else -> ""
             }
-            if (userAnswer == result){
-                Toast.makeText(this@MainActivity, "W I N! 👌🍕",Toast.LENGTH_SHORT).show()
+            clickSound?.start() // پخش صدای click_sound
+            if (userAnswer == result) {
+                Toast.makeText(this@MainActivity, "W I N! okpizza", Toast.LENGTH_SHORT).show()
                 score++
                 binding.tvScore.text = score.toString()
+                clapSound?.start() // پخش صدای clap_sound
                 startGame()
-            }
-            else if  (userAnswer.length >= result.length)  {
+            } else if (userAnswer.length >= result.length) {
                 loseAnimation()
             }
         }
     }
-
 }
-

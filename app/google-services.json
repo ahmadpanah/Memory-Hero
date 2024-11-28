@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "290972207175",
+    "project_id": "momoryhero",
+    "storage_bucket": "momoryhero.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:290972207175:android:8a51336a73b52022050962",
+        "android_client_info": {
+          "package_name": "ir.shariaty.memoryhero"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0CQnLTdmUlMKnNH-tp9EYJ4jeuQwFzk0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
