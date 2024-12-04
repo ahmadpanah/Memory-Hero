@@ -140,6 +140,7 @@ class MainActivity : AppCompatActivity(),OnClickListener {
                     }
                 }
                 delay(1000)
+                LeaderboardManager().submitScore(Score)
                 startGame()
             }
         }
@@ -162,6 +163,7 @@ class MainActivity : AppCompatActivity(),OnClickListener {
             }
             else if  (userAnswer.length >= result.length)  {
                 loseAnimation()
+
             }
         }
     }
