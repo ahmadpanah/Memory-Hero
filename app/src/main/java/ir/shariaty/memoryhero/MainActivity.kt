@@ -1,5 +1,6 @@
 package ir.shariaty.memoryhero
 
+import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +25,15 @@ import android.media.MediaPlayer
 import android.os.Handler
 import android.provider.Settings.Panel
 import android.widget.Button
+import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+
 import kotlin.random.Random
 
 
@@ -97,6 +107,37 @@ class MainActivity : AppCompatActivity(),OnClickListener {
         mediaPlayer = null
     }
 
+    private fun submitScore(score: Int, timeInMillis: Long) {
+        val builder = AlertDialog.Builder(this)
+        val input = EditText(this)
+
+        builder.setTitle("New Score!")
+            .setMessage("Enter your name:")
+            .setView(input)
+            .setPositiveButton("Submit") { _, _ ->
+                val playerName = input.text.toString()
+                if (playerName.isNotEmpty()) {
+
+                    val score = Score(
+                        playerName = playerName,
+                        score = score,
+                        timeInMillis = timeInMillis,
+                        userId = Firebase.getInstance().currentUser?.uid ?: ""
+                    )
+
+                    LeaderboardManager().submitScore(score) { success ->
+                        if (success) {
+                            startActivity(Intent(this, OnlineLeaderboardActivity::class.java))
+                        } else {
+                            Toast.makeText(this, "Failed to submit score", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
 
     private fun startGame(){
         result = ""
@@ -140,7 +181,7 @@ class MainActivity : AppCompatActivity(),OnClickListener {
                     }
                 }
                 delay(1000)
-                LeaderboardManager().submitScore(Score)
+
                 startGame()
             }
         }
@@ -162,6 +203,8 @@ class MainActivity : AppCompatActivity(),OnClickListener {
                 startGame()
             }
             else if  (userAnswer.length >= result.length)  {
+                val currentTimeMillis = System.currentTimeMillis()
+                submitScore(score, currentTimeMillis)
                 loseAnimation()
 
             }
